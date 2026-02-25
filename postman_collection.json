@@ -1,0 +1,148 @@
+{
+  "info": {
+    "name": "Todo App API — Local (json-server)",
+    "description": "All API endpoints used in the Flutter Todo App.\nEverything is LOCAL! No internet needed.\nAuth & Todos both use json-server on localhost:3000.\nStart server: cd lib/data && json-server --watch db.json",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth (localhost:3000)",
+      "description": "Login and Register using local json-server.\nWe simulate login by checking if a user exists in db.json.",
+      "item": [
+        {
+          "name": "1. POST — Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@test.com\",\n  \"password\": \"123456\",\n  \"name\": \"Test User\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/users",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["users"]
+            },
+            "description": "Register a new user locally.\nAdds the user to db.json."
+          }
+        },
+        {
+          "name": "2. GET — Login",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/users?email=test@test.com&password=123456",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["users"],
+              "query": [
+                {
+                  "key": "email",
+                  "value": "test@test.com"
+                },
+                {
+                  "key": "password",
+                  "value": "123456"
+                }
+              ]
+            },
+            "description": "Login by checking if user exists.\njson-server filters by email and password.\nIf list is not empty = login success!"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Todos (localhost:3000)",
+      "description": "CRUD operations using local json-server.",
+      "item": [
+        {
+          "name": "3. GET — Get All Todos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/todos",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["todos"]
+            },
+            "description": "Get all todos from the local server."
+          }
+        },
+        {
+          "name": "4. POST — Add a New Todo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Do homework\",\n  \"description\": \"Finish math exercises\",\n  \"dateTime\": \"2026-02-25T14:00:00.000\",\n  \"taskPriority\": \"high\",\n  \"isCompleted\": false\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/todos",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["todos"]
+            },
+            "description": "Add a new todo to the server."
+          }
+        },
+        {
+          "name": "5. PUT — Update a Todo",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"1\",\n  \"title\": \"Buy milk (updated)\",\n  \"description\": \"Buy milk from the new store\",\n  \"dateTime\": \"2026-02-20T15:00:00.000\",\n  \"taskPriority\": \"medium\",\n  \"isCompleted\": true\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/todos/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["todos", "1"]
+            },
+            "description": "Update todo with id=1."
+          }
+        },
+        {
+          "name": "6. DELETE — Delete a Todo",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/todos/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["todos", "1"]
+            },
+            "description": "Delete todo with id=1."
+          }
+        }
+      ]
+    }
+  ]
+}
