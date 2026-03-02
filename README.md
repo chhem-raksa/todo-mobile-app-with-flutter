@@ -323,5 +323,6 @@ These are acceptable for student demo but not production.
 - Toggle dark/light mode.
 - Restart app and verify theme preference is preserved with user data.
 
-#   f l u t t e r - f i r e b a s e  
+#   f l u t t e r - f i r e b a s e 
+ 
  
