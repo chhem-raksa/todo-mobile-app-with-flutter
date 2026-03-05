@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-
 class GettingStart extends StatefulWidget {
   const GettingStart({super.key});
 
   @override
   State<GettingStart> createState() => _GettingStartState();
 }
-
 class _GettingStartState extends State<GettingStart>
     with TickerProviderStateMixin {
   final PageController _pageController = PageController();

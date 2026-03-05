@@ -1,21 +1,17 @@
 {
-  "todos": [
+  "todos": [],
+  "users": [
     {
-      "id": "a415",
-      "title": "dgg",
-      "description": "dfgdf",
-      "dateTime": "2026-02-23T10:09:00.000",
-      "taskPriority": "medium",
-      "isCompleted": false
-    },
-    {
-      "id": "3598",
-      "title": "vdb",
-      "description": "dbdb",
-      "dateTime": "2026-02-23T10:22:00.000",
-      "taskPriority": "high",
-      "isCompleted": false
+      "id": "dfa5",
+      "email": "raksa@gmail.com",
+      "password": "12345678",
+      "name": "raksa",
+      "imageUrl": "",
+      "isDarkMode": false,
+      "title": "",
+      "about": "",
+      "phoneNumber": "",
+      "createdAt": "2026-03-02T09:12:09.537"
     }
-  ],
-  "users": []
+  ]
 }

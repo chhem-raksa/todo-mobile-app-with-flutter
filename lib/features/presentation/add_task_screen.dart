@@ -14,7 +14,7 @@ class AddTaskScreen extends StatefulWidget {
 }
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>(); // check from is valid
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   TaskPriority _selectedPriority = TaskPriority.medium;

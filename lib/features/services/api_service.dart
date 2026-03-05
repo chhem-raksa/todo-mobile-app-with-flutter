@@ -7,12 +7,13 @@ import '../models/task_enums.dart';
 import '../models/todo_store.dart';
 
 class ApiService {
+  final String apiUrl = 'http://localhost:3000';
   String get _baseUrl {
-    if (kIsWeb) return 'http://localhost:3000';
+    if (kIsWeb) return apiUrl;
     if (defaultTargetPlatform == TargetPlatform.android) {
-      return 'http://10.0.2.2:3000';
+      return apiUrl;
     }
-    return 'http://localhost:3000';
+    return apiUrl;
   }
 
   String get _usersUrl => '$_baseUrl/users';

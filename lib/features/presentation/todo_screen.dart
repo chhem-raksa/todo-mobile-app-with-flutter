@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
 import '../models/live_clock.dart';
 import '../models/todo_store.dart';
 import '../providers/user_provider.dart';
@@ -11,13 +9,12 @@ import '../widgets/build_state_card.dart';
 import '../widgets/empty_list.dart';
 import '../widgets/todo_list.dart';
 
+// build todo screen
 class TodoScreen extends StatefulWidget {
   const TodoScreen({super.key});
-
   @override
   State<TodoScreen> createState() => _TodoScreenState();
 }
-
 class _TodoScreenState extends State<TodoScreen> {
   static final DateFormat _weekdayFormat = DateFormat('EEEE');
   static final DateFormat _dateFormat = DateFormat('MMMM d, y');
@@ -55,6 +52,7 @@ class _TodoScreenState extends State<TodoScreen> {
               headerBgColor,
               stats,
             ),
+            // build todo list
             Expanded(
               child: todoStore.isLoading
                   ? const Center(child: CircularProgressIndicator())

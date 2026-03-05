@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:device_preview/device_preview.dart';
-
 import 'features/auth/login_screen.dart';
 import 'features/auth/register_screen.dart';
 import 'features/models/todo_store.dart';

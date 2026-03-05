@@ -95,7 +95,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     var updatedUser = currentUser.copyWith(
       name: _nameController.text.trim(),
-      title: _titleController.text.trim(),
       about: _aboutController.text.trim(),
       phoneNumber: _phoneController.text.trim(),
       imageUrl: _selectedImageBase64,
@@ -182,13 +181,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   }
                   return null;
                 },
-              ),
-              const SizedBox(height: 16),
-              // job title
-              _buildTextField(
-                controller: _titleController,
-                label: 'Your Job',
-                icon: Icons.work_outline,
               ),
               const SizedBox(height: 16),
               // phone number

@@ -17,7 +17,7 @@ class _LiveClockState extends State<LiveClock> {
 
   @override
   void initState() {
-    super.initState();
+    super.initState(); // initialize the state
     _timeString = _formatDateTime(DateTime.now());
     _timer = Timer.periodic(
       const Duration(seconds: 1),
@@ -26,7 +26,7 @@ class _LiveClockState extends State<LiveClock> {
   }
 
   @override
-  void dispose() {
+  void dispose() { // dispose the timer
     _timer?.cancel();
     super.dispose();
   }

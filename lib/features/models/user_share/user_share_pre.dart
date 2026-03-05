@@ -5,7 +5,6 @@ import '../user.dart';
 class UserSharePre {
   static const String _userKey = 'user';
   static const String _registeredUsersKey = 'registered_users';
-
   // Save current logged-in user
   Future<void> saveUser(User user) async {
     final prefs = await SharedPreferences.getInstance();

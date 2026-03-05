@@ -41,7 +41,7 @@ class TaskTodo {
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson() { //convert to json
     return {
       'id': taskId,
       'title': title,
@@ -52,7 +52,7 @@ class TaskTodo {
     };
   }
 
-  factory TaskTodo.fromJson(Map<String, dynamic> json) {
+  factory TaskTodo.fromJson(Map<String, dynamic> json) { //convert from json
     return TaskTodo(
       taskId: json['id']?.toString(),
       title: json['title']?.toString() ?? '',
@@ -65,7 +65,7 @@ class TaskTodo {
     );
   }
 
-  static TaskPriority _parsePriority(String? priority) {
+  static TaskPriority _parsePriority(String? priority) { //convert priority to enum
     switch (priority) {
       case 'high':
         return TaskPriority.high;
@@ -77,20 +77,43 @@ class TaskTodo {
   }
 }
 
-class TodoStore extends ChangeNotifier {
+class TodoStore extends ChangeNotifier { //manage todo state 
   static const _localTasksKey = 'local_tasks_cache';
   final ApiService _apiService = ApiService();
   final List<TaskTodo> _tasks = [];
 
+  void _sortTasks() {
+    int priorityScore(TaskPriority p) {
+      switch (p) {
+        case TaskPriority.high:
+          return 2;
+        case TaskPriority.medium:
+          return 1;
+        case TaskPriority.low:
+          return 0;
+      }
+    }
+
+    _tasks.sort((a, b) {
+      final dateCmp = a.dateTime.compareTo(b.dateTime);
+      if (dateCmp != 0) return dateCmp; // earlier deadlines first
+      return priorityScore(b.taskPriority) - priorityScore(a.taskPriority);
+      // for same deadline: high -> medium -> low
+    });
+  }
+
   String _searchQuery = '';
   bool _isLoading = false;
   String? _errorMessage;
-
+// get todos
   List<TaskTodo> get tasks => _tasks;
+// get search query
   String get searchQuery => _searchQuery;
+// get is loading
   bool get isLoading => _isLoading;
+// get error message
   String? get errorMessage => _errorMessage;
-
+// get filtered todos
   List<TaskTodo> get filteredTasks {
     if (_searchQuery.isEmpty) return _tasks;
     final query = _searchQuery.toLowerCase();
@@ -98,14 +121,13 @@ class TodoStore extends ChangeNotifier {
         .where((task) => task.title.toLowerCase().contains(query))
         .toList();
   }
-
   int get remainingTasks => _tasks.where((task) => !task.isCompleted).length;
   int get completedTasks => _tasks.where((task) => task.isCompleted).length;
-
-  Future<void> loadTodos() async {
+// load todos from api and local storage
+  Future<void> loadTodos() async { 
     _isLoading = true;
     _errorMessage = null;
-    notifyListeners();
+    notifyListeners(); // notify listeners that the state has changed
 
     try {
       final cachedLocal = await _loadTasksFromLocal();
@@ -126,19 +148,21 @@ class TodoStore extends ChangeNotifier {
         ..clear()
         ..addAll(todos);
       _tasks.addAll(mergedPending);
+      _sortTasks();
       await _saveTasksToLocal();
-    } catch (_) {
+    } catch (_) { // if failed to load todos from api, load from local storage
       final localTodos = await _loadTasksFromLocal();
       _tasks
         ..clear()
         ..addAll(localTodos);
+      _sortTasks();
       _errorMessage = localTodos.isEmpty ? 'Failed to load todos' : null;
     } finally {
       _isLoading = false;
       notifyListeners();
     }
   }
-
+// add new todo to api and local storage
   Future<void> addTask(TaskTodo task) async {
     _errorMessage = null;
     try {
@@ -150,13 +174,15 @@ class TodoStore extends ChangeNotifier {
       );
       _tasks.add(localTask);
     }
+    _sortTasks();
     await _saveTasksToLocal();
     notifyListeners();
   }
-
+// remove todo from api and local storage
   Future<void> removeTask(TaskTodo task) async {
     _errorMessage = null;
     _tasks.remove(task);
+    _sortTasks();
     await _saveTasksToLocal();
     notifyListeners();
 
@@ -172,13 +198,14 @@ class TodoStore extends ChangeNotifier {
       notifyListeners();
     }
   }
-
+// update todo in api and local storage
   Future<void> updateTask(TaskTodo task) async {
     _errorMessage = null;
     final index = _tasks.indexWhere((t) => t.taskId == task.taskId);
     if (index == -1) return;
 
     _tasks[index] = task;
+    _sortTasks();
 
     if (!_isLocalTaskId(task.taskId)) {
       try {
@@ -188,7 +215,7 @@ class TodoStore extends ChangeNotifier {
     await _saveTasksToLocal();
     notifyListeners();
   }
-
+// clear completed todos from api and local storage
   Future<void> clearCompleted() async {
     _errorMessage = null;
     final completed = _tasks.where((task) => task.isCompleted).toList();
@@ -201,27 +228,28 @@ class TodoStore extends ChangeNotifier {
       }
     }
     _tasks.removeWhere((task) => task.isCompleted);
+    _sortTasks();
     await _saveTasksToLocal();
     notifyListeners();
   }
-
+// toggle todo completion in api and local storage
   void toggleTodo(String id) {
     final index = _tasks.indexWhere((todo) => todo.taskId == id);
     if (index == -1) return;
     updateTask(_tasks[index].copyWith(isCompleted: !_tasks[index].isCompleted));
   }
-
+// search todos
   void searchTask(String query) {
     _searchQuery = query;
     notifyListeners();
   }
-
+// save todos to local storage
   Future<void> _saveTasksToLocal() async {
     final prefs = await SharedPreferences.getInstance();
     final tasksJson = _tasks.map((task) => task.toJson()).toList();
     await prefs.setString(_localTasksKey, jsonEncode(tasksJson));
   }
-
+// load todos from local storage
   Future<List<TaskTodo>> _loadTasksFromLocal() async {
     final prefs = await SharedPreferences.getInstance();
     final jsonString = prefs.getString(_localTasksKey);
@@ -238,11 +266,11 @@ class TodoStore extends ChangeNotifier {
       return [];
     }
   }
-
+// check if task id is local
   bool _isLocalTaskId(String? id) {
     return id == null || id.isEmpty || id.startsWith('local-');
   }
-
+// generate local task id
   String _generateLocalTaskId() {
     return 'local-${DateTime.now().millisecondsSinceEpoch}';
   }

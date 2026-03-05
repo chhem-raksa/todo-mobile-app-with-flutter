@@ -81,7 +81,6 @@ class User {
     String? name,
     String? imageUrl,
     bool? isDarkMode,
-    String? title,
     String? about,
     String? phoneNumber,
   }) {
@@ -92,7 +91,6 @@ class User {
       name: name ?? this.name,
       imageUrl: imageUrl ?? this.imageUrl,
       isDarkMode: isDarkMode ?? this.isDarkMode,
-      title: title ?? this.title,
       about: about ?? this.about,
       phoneNumber: phoneNumber ?? this.phoneNumber,
     );
