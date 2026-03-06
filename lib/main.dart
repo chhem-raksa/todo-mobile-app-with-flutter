@@ -22,16 +22,19 @@ void main() async {
     userProvider.setUser(user);
   }
   runApp(
-    DevicePreview(
-      enabled: !kReleaseMode,
-      builder: (context) => MyApp(
-        userProvider: userProvider,
-        startScreen: user != null ? '/todo' : '/',
-      ),
+    // DevicePreview(
+    //   enabled: !kReleaseMode,
+    //   builder: (context) => MyApp(
+    //     userProvider: userProvider,
+    //     startScreen: user != null ? '/todo' : '/',
+    //   ),
+    // ),
+    MyApp(
+      userProvider: userProvider,
+      startScreen: user != null ? '/todo' : '/',
     ),
   );
 }
-
 
 class MyApp extends StatelessWidget {
   final String startScreen;
@@ -85,7 +88,8 @@ class MyApp extends StatelessWidget {
               '/add_task': (BuildContext context) => const AddTaskScreen(),
               '/settings': (BuildContext context) => const SettingScreen(),
               '/profile': (BuildContext context) => const UserProfileScreen(),
-              '/edit_profile': (BuildContext context) => const EditProfileScreen(),
+              '/edit_profile': (BuildContext context) =>
+                  const EditProfileScreen(),
             },
           );
         },
