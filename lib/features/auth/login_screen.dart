@@ -22,8 +22,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isValidEmail(String value) {
     return RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(value);
   }
-  // example email: [EMAIL_ADDRESS] raksa@gmail.com
-  // example password: [PASSWORD] 123456
 
   Future<void> _handleLogin() async {
     if (!_formKey.currentState!.validate()) return;
